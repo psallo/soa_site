@@ -1,0 +1,35 @@
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+    .invoice-preview, .invoice-preview * {
+        visibility: visible;
+    }
+    .invoice-preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 186mm;
+        min-height: 273mm;
+        padding: 12mm;
+        border: none;
+        box-shadow: none;
+        background: #ffffff;
+    }
+    #print-invoice, #download-pdf, #generate-invoice, #invoice-form, .totals, .page-title {
+        display: none;
+    }
+}

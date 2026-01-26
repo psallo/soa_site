@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>거래명세서 생성기</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1 class="page-title">거래명세서 생성기</h1>
+
+    <form id="invoice-form">
+        <div class="company-info">
+            <div class="recipient">
+                <h2>공급받는자</h2>
+                <label>등록번호: <input type="text" name="recipient_reg_num"></label>
+                <div class="field-row">
+                    <label>상호: <input type="text" name="recipient_name"></label>
+                    <label>성명: <input type="text" name="recipient_owner"></label>
+                </div>
+                <label>사업장 주소: <input type="text" name="recipient_address"></label>
+                <div class="field-row">
+                    <label>업태: <input type="text" name="recipient_biz_type"></label>
+                    <label>종목: <input type="text" name="recipient_biz_item"></label>
+                </div>
+                <label>전화번호: <input type="text" name="recipient_tel"></label>
+                <label>이메일: <input type="text" name="recipient_email"></label>
+            </div>
+            <div class="supplier">
+                <h2>공급자</h2>
+                <label>등록번호: <input type="text" name="supplier_reg_num"></label>
+                <div class="field-row">
+                    <label>상호: <input type="text" name="supplier_name"></label>
+                    <label>성명: <input type="text" name="supplier_owner"></label>
+                </div>
+                <label>사업장 주소: <input type="text" name="supplier_address"></label>
+                <div class="field-row">
+                    <label>업태: <input type="text" name="supplier_biz_type"></label>
+                    <label>종목: <input type="text" name="supplier_biz_item"></label>
+                </div>
+                <label>전화번호: <input type="text" name="supplier_tel"></label>
+                <label>이메일: <input type="text" name="supplier_email"></label>
+                <label class="stamp-upload-row">직인 등록:
+                    <input type="file" id="supplier-stamp" accept="image/*">
+                    <img id="supplier-stamp-preview" alt="도장 미리보기">
+                </label>
+            </div>
+        </div>
+
+        <div class="transaction-info">
+            <label>거래일자: <input type="date" name="transaction_date"></label>
+        </div>
+
+        <table id="invoice-items">
+            <thead>
+                <tr>
+                    <th>품목명</th>
+                    <th>수량</th>
+                    <th>단가</th>
+                    <th>공급가액</th>
+                    <th>세액</th>
+                    <th>비과세</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="item_name"></td>
+                    <td><input type="number" name="item_quantity" value="1"></td>
+                    <td><input type="number" name="item_price" value="0"></td>
+                    <td><span class="supply-price">0</span></td>
+                    <td><span class="tax">0</span></td>
+                    <td><input type="checkbox" name="item_tax_exempt"></td>
+                    <td><button type="button" class="remove-item">삭제</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" id="add-item">품목 추가</button>
+
+        <div class="terms-section">
+            <label>거래조건:
+                <textarea name="transaction_terms" rows="4" placeholder="결제 조건, 납기, 기타 특약 등을 입력하세요."></textarea>
+            </label>
+        </div>
+    </form>
+
+    <div class="totals">
+        <h3>합계</h3>
+        <p>총 공급가액: <span id="total-supply-price">0</span></p>
+        <p>총 세액: <span id="total-tax">0</span></p>
+        <p>합계 금액: <span id="total-amount">0</span></p>
+    </div>
+
+    <button type="button" id="generate-invoice">거래명세서 생성</button>
+    <button type="button" id="print-invoice">인쇄</button>
+    <button type="button" id="download-pdf">PDF로 다운로드</button>
+
+    <div class="invoice-preview">
+        <div class="invoice-header">
+            <h1>거래명세서</h1>
+        </div>
+        <div class="invoice-company-info">
+            <div class="invoice-recipient">
+                <h2>공급받는자</h2>
+                <p><strong>등록번호:</strong> <span id="preview-recipient-reg-num"></span></p>
+                <p class="pair-row">
+                    <span class="pair-col"><strong>상호:</strong> <span id="preview-recipient-name"></span></span>
+                    <span class="pair-col"><strong>성명:</strong> <span id="preview-recipient-owner"></span></span>
+                </p>
+                <p><strong>사업장 주소:</strong> <span id="preview-recipient-address"></span></p>
+                <p class="pair-row">
+                    <span class="pair-col"><strong>업태:</strong> <span id="preview-recipient-biz-type"></span></span>
+                    <span class="pair-col"><strong>종목:</strong> <span id="preview-recipient-biz-item"></span></span>
+                </p>
+                <p><strong>전화번호:</strong> <span id="preview-recipient-tel"></span></p>
+                <p><strong>이메일:</strong> <span id="preview-recipient-email"></span></p>
+            </div>
+            <div class="invoice-supplier">
+                <h2>공급자</h2>
+                <p><strong>등록번호:</strong> <span id="preview-supplier-reg-num"></span></p>
+                <p class="pair-row">
+                    <span class="pair-col"><strong>상호:</strong> <span id="preview-supplier-name"></span></span>
+                    <span class="pair-col"><strong>성명:</strong> <span id="preview-supplier-owner"></span></span>
+                </p>
+                <img id="preview-supplier-stamp" alt="도장 이미지">
+                <p><strong>사업장 주소:</strong> <span id="preview-supplier-address"></span></p>
+                <p class="pair-row">
+                    <span class="pair-col"><strong>업태:</strong> <span id="preview-supplier-biz-type"></span></span>
+                    <span class="pair-col"><strong>종목:</strong> <span id="preview-supplier-biz-item"></span></span>
+                </p>
+                <p><strong>전화번호:</strong> <span id="preview-supplier-tel"></span></p>
+                <p><strong>이메일:</strong> <span id="preview-supplier-email"></span></p>
+            </div>
+        </div>
+        <p><strong>거래일자:</strong> <span id="preview-transaction-date"></span></p>
+        <table class="invoice-items-table">
+            <thead>
+                <tr>
+                    <th>품목명</th>
+                    <th>수량</th>
+                    <th>단가</th>
+                    <th>공급가액</th>
+                    <th>세액</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody id="preview-invoice-items">
+            </tbody>
+        </table>
+        <div class="invoice-totals">
+            <p><strong>총 공급가액:</strong> <span id="preview-total-supply-price"></span></p>
+            <p><strong>총 세액:</strong> <span id="preview-total-tax"></span></p>
+            <p><strong>합계 금액:</strong> <span id="preview-total-amount"></span></p>
+        </div>
+        <div class="invoice-terms">
+            <h3>거래조건</h3>
+            <p id="preview-transaction-terms"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #f7f6f2 0%, #f2f4f8 100%);
+    color: #1f2a37;
+    margin: 0;
+    padding: 24px 0 48px;
+}
+
+#invoice-form {
+    width: min(1100px, 92%);
+    margin-top: 20px;
+    border: 1px solid #d6dbe6;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 18px 45px rgba(25, 38, 64, 0.12);
+}
+
+.company-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 16px;
+}
+
+.supplier, .recipient {
+    width: 50%;
+    border: 1px solid #d6dbe6;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f9fafc;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.field-row > label {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #3a495f;
+}
+
+input[type="text"], input[type="number"], input[type="date"], textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd2e1;
+    background: #ffffff;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, textarea:focus {
+    outline: none;
+    border-color: #2f80ed;
+    box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.16);
+}
+
+#invoice-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e9f2;
+}
+
+#invoice-items th, #invoice-items td {
+    border: 1px solid #e5e9f2;
+    padding: 10px;
+    text-align: center;
+}
+
+#invoice-items th {
+    background-color: #eff3f9;
+    color: #2b3a52;
+    font-weight: 600;
+}
+
+.totals {
+    width: min(1100px, 92%);
+    margin-top: 20px;
+    text-align: right;
+    background: #ffffff;
+    border: 1px solid #d6dbe6;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 30px rgba(25, 38, 64, 0.1);
+}
+
+#generate-invoice {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#print-invoice,
+#download-pdf {
+    padding: 10px 20px;
+    margin: 10px 6px 0;
+    border-radius: 10px;
+    border: 1px solid #cfd6e6;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f4f9 100%);
+    color: #2b3a52;
+    cursor: pointer;
+    font-size: 15px;
+    min-width: 160px;
+    height: 42px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+#print-invoice:hover,
+#download-pdf:hover {
+    border-color: #b9c4da;
+    box-shadow: 0 8px 18px rgba(25, 38, 64, 0.12);
+    transform: translateY(-1px);
+}
+
+#print-invoice:active,
+#download-pdf:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.stamp-upload-row {
+    display: grid;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.stamp-upload-row input[type="file"] {
+    font-size: 12px;
+}
+
+#supplier-stamp-preview {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px dashed #b7bfd3;
+    object-fit: contain;
+    background: #ffffff;
+    display: none;
+}
+
+.terms-section {
+    margin-top: 16px;
+}
+
+.terms-section textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.invoice-preview {
+    width: 210mm;
+    max-width: 210mm;
+    margin-top: 20px;
+    border: 1px solid #d6dbe6;
+    padding: 24px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(25, 38, 64, 0.12);
+    position: relative;
+    overflow: visible;
+    font-size: 13px;
+}
+
+.invoice-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.invoice-company-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 16px;
+}
+
+.invoice-supplier, .invoice-recipient {
+    width: 50%;
+    border: 1px solid #d6dbe6;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f9fafc;
+    position: relative;
+    overflow: visible;
+}
+
+#preview-supplier-stamp {
+    position: absolute;
+    top: 52px;
+    right: 18px;
+    width: 63px;
+    height: 63px;
+    object-fit: contain;
+    z-index: 10;
+    display: none;
+}
+
+.inline-sep {
+    margin-left: 10px;
+}
+
+.pair-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e9f2;
+}
+
+.pair-col {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+}
+
+.invoice-company-info p {
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e9f2;
+}
+
+.invoice-company-info p:last-of-type,
+.invoice-company-info .pair-row:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.invoice-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #e5e9f2;
+}
+
+.invoice-items-table th, .invoice-items-table td {
+    border: 1px solid #e5e9f2;
+    padding: 8px;
+    text-align: center;
+}
+
+.invoice-items-table td:nth-child(2),
+.invoice-items-table td:nth-child(3),
+.invoice-items-table td:nth-child(4),
+.invoice-items-table td:nth-child(5) {
+    text-align: right;
+    padding-right: 12px;
+}
+
+.invoice-items-table th {
+    background-color: #eff3f9;
+}
+
+.invoice-totals {
+    text-align: right;
+    border-top: 1px solid #d6dbe6;
+    padding-top: 12px;
+}
+
+.invoice-terms {
+    margin-top: 16px;
+    border-top: 1px solid #d6dbe6;
+    padding-top: 12px;
+    color: #2b3a52;
+}
+
+.invoice-terms p {
+    white-space: pre-line;
+    margin: 8px 0 0;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .company-info {
+        flex-direction: column;
+    }
+
+    .supplier, .recipient {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .field-row {
+        grid-template-columns: 1fr;
+    }
+}
