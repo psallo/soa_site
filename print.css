@@ -29,7 +29,7 @@
         box-shadow: none;
         background: #ffffff;
     }
-    #print-invoice, #download-pdf, #generate-invoice, #invoice-form, .totals, .page-title {
+    #print-invoice, #download-pdf, #generate-invoice, #invoice-form, .totals, .page-title, .site-footer {
         display: none;
     }
 }
