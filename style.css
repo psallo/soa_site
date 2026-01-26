@@ -40,11 +40,27 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
+    background: linear-gradient(135deg, #f7f9ff 0%, #eef3ff 100%);
+    border: 1px solid #dbe2f2;
+    border-radius: 14px;
+    padding: 12px;
 }
 
 .auth-fields input {
     height: 46px;
     font-size: 16px;
+    background: #ffffff;
+}
+
+.auth-fields label {
+    font-size: 13px;
+    color: #4a5b75;
+    margin-bottom: 0;
+}
+
+.auth-fields input:focus {
+    border-color: #3a7bff;
+    box-shadow: 0 0 0 3px rgba(58, 123, 255, 0.18);
 }
 
 .auth-actions {
@@ -61,6 +77,7 @@ body {
     background: #f7f9fd;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .auth-actions button:disabled {
@@ -365,6 +382,22 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
 @media screen and (max-width: 768px) {
     body {
         font-size: 14px;
+    }
+
+    .auth-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-actions {
+        align-items: stretch;
+    }
+
+    .auth-actions button {
+        width: 100%;
     }
 
     .company-info {
