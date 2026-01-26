@@ -285,8 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generateInvoiceButton = document.getElementById('generate-invoice');
     generateInvoiceButton.addEventListener('click', () => {
-        const email = ensureLoggedIn();
-        if (!email) return;
+        const email = getCurrentUserEmail();
         //- `supplier_reg_num`
         //- `supplier_name`
         //- `supplier_owner`
@@ -367,21 +366,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        updateUser(email, (user) => {
-            user.invoices.push({
-                createdAt: new Date().toISOString(),
-                supplier: { ...user.profile.supplier },
-                recipient: { ...user.profile.recipient },
-                transactionDate: document.querySelector('[name="transaction_date"]').value,
-                terms: document.querySelector('[name="transaction_terms"]').value,
-                items: invoiceItems,
-                totals: {
-                    supply: document.getElementById('total-supply-price').textContent,
-                    tax: document.getElementById('total-tax').textContent,
-                    amount: document.getElementById('total-amount').textContent
-                }
+        if (email) {
+            updateUser(email, (user) => {
+                user.invoices.push({
+                    createdAt: new Date().toISOString(),
+                    supplier: { ...user.profile.supplier },
+                    recipient: { ...user.profile.recipient },
+                    transactionDate: document.querySelector('[name="transaction_date"]').value,
+                    terms: document.querySelector('[name="transaction_terms"]').value,
+                    items: invoiceItems,
+                    totals: {
+                        supply: document.getElementById('total-supply-price').textContent,
+                        tax: document.getElementById('total-tax').textContent,
+                        amount: document.getElementById('total-amount').textContent
+                    }
+                });
             });
-        });
+        }
     });
 
     const printInvoiceButton = document.getElementById('print-invoice');

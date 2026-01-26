@@ -240,8 +240,8 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
 }
 
 #supplier-stamp-preview {
-    width: 34px;
-    height: 34px;
+    width: 27px;
+    height: 27px;
     border-radius: 8px;
     border: 1px dashed #b7bfd3;
     object-fit: contain;
@@ -298,8 +298,8 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     position: absolute;
     top: 52px;
     right: 18px;
-    width: 63px;
-    height: 63px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
     z-index: 10;
     display: none;
