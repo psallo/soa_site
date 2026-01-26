@@ -50,6 +50,7 @@ body {
     height: 46px;
     font-size: 16px;
     background: #ffffff;
+    border: 1px solid #e1e6f0;
 }
 
 .auth-fields label {
@@ -95,7 +96,7 @@ body {
     font-size: 13px;
     font-weight: 600;
     margin: 0;
-    color: #2b3a52;
+    color: #d26b6b;
 }
 
 .is-logged-out #invoice-form,
