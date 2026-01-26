@@ -141,6 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadProfile(email);
     });
 
+    loginPassword.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            loginButton.click();
+        }
+    });
+
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem(CURRENT_USER_KEY);
         setLoggedInState(false);
