@@ -54,20 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
         authStatus.textContent = isLoggedIn ? `${email} 로그인됨` : '로그인 필요';
     }
 
-    async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        return Array.from(new Uint8Array(hashBuffer))
-            .map((byte) => byte.toString(16).padStart(2, '0'))
-            .join('');
-    }
-
-    function getOrCreateUser(email, passwordHash) {
+    function getOrCreateUser(email) {
         const users = loadUsers();
         if (!users[email]) {
             users[email] = {
-                passwordHash,
                 profile: {
                     supplier: {},
                     recipient: {},
@@ -135,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return email;
     }
 
-    loginButton.addEventListener('click', async () => {
+    loginButton.addEventListener('click', () => {
         const email = loginEmail.value.trim();
         const password = loginPassword.value.trim();
         if (!email || !password) {
@@ -143,21 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const users = loadUsers();
-        const passwordHash = await hashPassword(password);
-        if (users[email]) {
-            if (users[email].passwordHash && users[email].passwordHash !== passwordHash) {
-                alert('비밀번호가 올바르지 않습니다.');
-                return;
-            }
-            if (!users[email].passwordHash && users[email].password === password) {
-                users[email].passwordHash = passwordHash;
-                delete users[email].password;
-                saveUsers(users);
-            }
-        }
-
-        getOrCreateUser(email, passwordHash);
+        getOrCreateUser(email);
         localStorage.setItem(CURRENT_USER_KEY, email);
         setLoggedInState(true, email);
         loadProfile(email);
@@ -166,6 +142,34 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem(CURRENT_USER_KEY);
         setLoggedInState(false);
+        loginEmail.value = '';
+        loginPassword.value = '';
+        stampDataUrl = '';
+        stampPreview.style.display = 'none';
+        previewStamp.style.display = 'none';
+        document.querySelectorAll('#invoice-form input[type="text"], #invoice-form input[type="number"], #invoice-form input[type="date"], #invoice-form textarea').forEach((input) => {
+            input.value = '';
+        });
+        invoiceItemsTable.innerHTML = `
+            <tr>
+                <td><input type="text" name="item_name"></td>
+                <td><input type="number" name="item_quantity" value="1"></td>
+                <td><input type="number" name="item_price" value="0"></td>
+                <td><span class="supply-price">0</span></td>
+                <td><span class="tax">0</span></td>
+                <td><input type="checkbox" name="item_tax_exempt"></td>
+                <td><button type="button" class="remove-item">삭제</button></td>
+            </tr>
+        `;
+        updateTotals();
+        document.querySelectorAll('.invoice-preview span, .invoice-preview p').forEach((el) => {
+            if (el.id === 'preview-transaction-terms') return;
+            if (el.tagName.toLowerCase() === 'span') {
+                el.textContent = '';
+            }
+        });
+        document.getElementById('preview-transaction-terms').textContent = '';
+        document.getElementById('preview-invoice-items').innerHTML = '';
     });
 
     document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea').forEach((input) => {
