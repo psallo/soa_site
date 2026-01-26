@@ -12,9 +12,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1 class="page-title">거래명세서 생성기</h1>
+    <header class="site-header">
+        <h1 class="page-title">거래명세서 생성기</h1>
+        <p class="page-subtitle">거래명세서를 빠르고 정확하게 작성하고, 인쇄/PDF까지 한 번에 처리하세요.</p>
+        <nav class="site-nav">
+            <a href="#tool">도구</a>
+            <a href="#guide">작성 가이드</a>
+            <a href="#examples">예시</a>
+            <a href="#faq">FAQ</a>
+            <a href="#policies">정책</a>
+        </nav>
+    </header>
 
-    <section class="auth-panel">
+    <section class="auth-panel" id="tool">
         <div class="auth-fields">
             <label>이메일
                 <input type="email" id="login-email" placeholder="name@example.com">
@@ -22,12 +32,6 @@
             <label>비밀번호
                 <input type="password" id="login-password" placeholder="비밀번호">
             </label>
-            <div class="coupang-ad">
-                <a href="https://link.coupang.com/a/dAdTlr" target="_blank" rel="noopener noreferrer">
-                    <img src="./coup.png" alt="쿠팡 파트너스 배너">
-                </a>
-                <p>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
-            </div>
         </div>
         <div class="auth-actions">
             <button type="button" id="login-button">로그인</button>
@@ -123,6 +127,57 @@
     <button type="button" id="generate-invoice">거래명세서 생성</button>
     <button type="button" id="print-invoice">인쇄</button>
     <button type="button" id="download-pdf">PDF로 다운로드</button>
+
+    <section class="content-section" id="guide">
+        <h2>작성 가이드</h2>
+        <ol>
+            <li>공급자/공급받는자 정보를 입력합니다.</li>
+            <li>품목을 추가하고 수량/단가를 입력합니다.</li>
+            <li>비과세 품목이면 비과세 체크를 선택합니다.</li>
+            <li>거래조건을 입력한 뒤 거래명세서 생성을 눌러 미리보기를 확인합니다.</li>
+            <li>인쇄 또는 PDF로 다운로드합니다.</li>
+        </ol>
+    </section>
+
+    <section class="content-section" id="examples">
+        <h2>예시</h2>
+        <p>간단한 매입/매출 거래, 납품 내역 정리, 세액/비과세 구분이 필요한 거래에 활용할 수 있습니다.</p>
+    </section>
+
+    <section class="content-section" id="faq">
+        <h2>FAQ</h2>
+        <h3>비과세 품목은 어떻게 표시되나요?</h3>
+        <p>비과세 체크 시 세액이 0으로 계산되며, 미리보기의 비고에 “비과세”로 표시됩니다.</p>
+        <h3>로그인 정보는 어디에 저장되나요?</h3>
+        <p>서버가 아닌 사용자의 브라우저 저장소에만 저장되며, 다른 기기/브라우저와 공유되지 않습니다.</p>
+        <h3>인쇄 시 회색 배경이 보일 수 있어요.</h3>
+        <p>브라우저의 “배경 그래픽 인쇄” 설정에 따라 다르게 보일 수 있습니다.</p>
+    </section>
+
+    <section class="content-section" id="policies">
+        <h2>정책</h2>
+        <div class="policy-grid">
+            <div>
+                <h3>개인정보 처리방침</h3>
+                <p>본 서비스는 로그인/입력 정보를 서버로 전송하지 않으며, 사용자의 브라우저 저장소에만 보관합니다.</p>
+            </div>
+            <div>
+                <h3>이용약관</h3>
+                <p>본 서비스는 참고용 도구이며, 법적 효력은 사용자가 직접 확인해야 합니다.</p>
+            </div>
+            <div>
+                <h3>문의</h3>
+                <p>문의: treasure0613@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="coupang-ad">
+        <a href="https://link.coupang.com/a/dAdTlr" target="_blank" rel="noopener noreferrer">
+            <img src="./coup.png" alt="쿠팡 파트너스 배너">
+        </a>
+        <p>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    </section>
 
     <div class="invoice-preview">
         <div class="invoice-header">

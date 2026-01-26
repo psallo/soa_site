@@ -13,6 +13,36 @@ body {
     padding: 24px 0 48px;
 }
 
+.site-header {
+    width: min(1100px, 92%);
+    text-align: center;
+    margin-top: 6px;
+}
+
+.page-subtitle {
+    margin: 8px 0 12px;
+    color: #5a6a82;
+    font-size: 15px;
+}
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.site-nav a {
+    text-decoration: none;
+    color: #2b3a52;
+    background: #f1f4fb;
+    border: 1px solid #dde3f0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
 #invoice-form {
     width: min(1100px, 92%);
     margin-top: 20px;
@@ -44,10 +74,6 @@ body {
     border: 1px solid #dbe2f2;
     border-radius: 14px;
     padding: 12px;
-}
-
-.auth-fields .coupang-ad {
-    grid-column: 1 / -1;
 }
 
 .auth-fields input {
@@ -104,8 +130,14 @@ body {
 }
 
 .coupang-ad {
-    margin-top: 8px;
+    width: min(1100px, 92%);
+    margin: 18px auto 0;
     text-align: center;
+    background: #ffffff;
+    border: 1px solid #e1e6f0;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 10px 24px rgba(25, 38, 64, 0.08);
 }
 
 .coupang-ad img {
@@ -119,6 +151,44 @@ body {
     margin: 6px 0 0;
     font-size: 11px;
     color: #9aa3b2;
+}
+
+.content-section {
+    width: min(1100px, 92%);
+    background: #ffffff;
+    border: 1px solid #d6dbe6;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    box-shadow: 0 12px 28px rgba(25, 38, 64, 0.08);
+}
+
+.content-section h2 {
+    margin: 0 0 10px;
+}
+
+.content-section h3 {
+    margin: 12px 0 6px;
+    font-size: 15px;
+}
+
+.content-section p,
+.content-section li {
+    color: #3a495f;
+    line-height: 1.6;
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.policy-grid > div {
+    background: #f9fafc;
+    border: 1px solid #e5e9f2;
+    border-radius: 12px;
+    padding: 12px;
 }
 
 .is-logged-out #invoice-form,
@@ -422,6 +492,10 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
         font-size: 14px;
     }
 
+    .site-nav {
+        gap: 8px;
+    }
+
     .auth-panel {
         grid-template-columns: 1fr;
     }
@@ -448,6 +522,10 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     }
 
     .field-row {
+        grid-template-columns: 1fr;
+    }
+
+    .policy-grid {
         grid-template-columns: 1fr;
     }
 }
