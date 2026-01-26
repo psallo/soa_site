@@ -99,6 +99,24 @@ body {
     color: #d26b6b;
 }
 
+.coupang-ad {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.coupang-ad img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.coupang-ad p {
+    margin: 6px 0 0;
+    font-size: 11px;
+    color: #9aa3b2;
+}
+
 .is-logged-out #invoice-form,
 .is-logged-out .invoice-preview,
 .is-logged-out .totals,
