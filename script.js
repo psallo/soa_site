@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('is-logged-out', !isLoggedIn);
         logoutButton.disabled = !isLoggedIn;
         loginButton.disabled = isLoggedIn;
+        loginEmail.disabled = isLoggedIn;
+        loginPassword.disabled = isLoggedIn;
         authStatus.textContent = isLoggedIn ? `${email} 로그인됨` : '로그인 필요';
     }
 
