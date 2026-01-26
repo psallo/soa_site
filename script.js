@@ -1,10 +1,183 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const USERS_KEY = 'soa_users';
+    const CURRENT_USER_KEY = 'soa_current_user';
     const addItemButton = document.getElementById('add-item');
     const invoiceItemsTable = document.getElementById('invoice-items').getElementsByTagName('tbody')[0];
     const stampInput = document.getElementById('supplier-stamp');
     const stampPreview = document.getElementById('supplier-stamp-preview');
     const previewStamp = document.getElementById('preview-supplier-stamp');
     let stampDataUrl = '';
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const authStatus = document.getElementById('auth-status');
+
+    const supplierFields = [
+        'supplier_reg_num',
+        'supplier_name',
+        'supplier_owner',
+        'supplier_address',
+        'supplier_biz_type',
+        'supplier_biz_item',
+        'supplier_tel',
+        'supplier_email'
+    ];
+
+    const recipientFields = [
+        'recipient_reg_num',
+        'recipient_name',
+        'recipient_owner',
+        'recipient_address',
+        'recipient_biz_type',
+        'recipient_biz_item',
+        'recipient_tel',
+        'recipient_email'
+    ];
+
+    function loadUsers() {
+        return JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+    }
+
+    function saveUsers(users) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function getCurrentUserEmail() {
+        return localStorage.getItem(CURRENT_USER_KEY);
+    }
+
+    function setLoggedInState(isLoggedIn, email = '') {
+        document.body.classList.toggle('is-logged-out', !isLoggedIn);
+        logoutButton.disabled = !isLoggedIn;
+        loginButton.disabled = isLoggedIn;
+        authStatus.textContent = isLoggedIn ? `${email} 로그인됨` : '로그인 필요';
+    }
+
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        return Array.from(new Uint8Array(hashBuffer))
+            .map((byte) => byte.toString(16).padStart(2, '0'))
+            .join('');
+    }
+
+    function getOrCreateUser(email, passwordHash) {
+        const users = loadUsers();
+        if (!users[email]) {
+            users[email] = {
+                passwordHash,
+                profile: {
+                    supplier: {},
+                    recipient: {},
+                    stamp: ''
+                },
+                invoices: []
+            };
+            saveUsers(users);
+        }
+        return users[email];
+    }
+
+    function updateUser(email, updater) {
+        const users = loadUsers();
+        const user = users[email];
+        if (!user) return;
+        updater(user);
+        users[email] = user;
+        saveUsers(users);
+    }
+
+    function loadProfile(email) {
+        const users = loadUsers();
+        const user = users[email];
+        if (!user) return;
+
+        supplierFields.forEach((field) => {
+            const input = document.querySelector(`[name="${field}"]`);
+            input.value = user.profile.supplier[field] || '';
+        });
+        recipientFields.forEach((field) => {
+            const input = document.querySelector(`[name="${field}"]`);
+            input.value = user.profile.recipient[field] || '';
+        });
+
+        if (user.profile.stamp) {
+            stampDataUrl = user.profile.stamp;
+            stampPreview.src = stampDataUrl;
+            stampPreview.style.display = 'block';
+            previewStamp.src = stampDataUrl;
+            previewStamp.style.display = 'block';
+        } else {
+            stampDataUrl = '';
+            stampPreview.style.display = 'none';
+            previewStamp.style.display = 'none';
+        }
+    }
+
+    function saveProfileField(email, fieldName, value) {
+        updateUser(email, (user) => {
+            if (supplierFields.includes(fieldName)) {
+                user.profile.supplier[fieldName] = value;
+            } else if (recipientFields.includes(fieldName)) {
+                user.profile.recipient[fieldName] = value;
+            }
+        });
+    }
+
+    function ensureLoggedIn() {
+        const email = getCurrentUserEmail();
+        if (!email) {
+            alert('로그인이 필요합니다.');
+            return null;
+        }
+        return email;
+    }
+
+    loginButton.addEventListener('click', async () => {
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value.trim();
+        if (!email || !password) {
+            alert('이메일과 비밀번호를 입력해주세요.');
+            return;
+        }
+
+        const users = loadUsers();
+        const passwordHash = await hashPassword(password);
+        if (users[email]) {
+            if (users[email].passwordHash && users[email].passwordHash !== passwordHash) {
+                alert('비밀번호가 올바르지 않습니다.');
+                return;
+            }
+            if (!users[email].passwordHash && users[email].password === password) {
+                users[email].passwordHash = passwordHash;
+                delete users[email].password;
+                saveUsers(users);
+            }
+        }
+
+        getOrCreateUser(email, passwordHash);
+        localStorage.setItem(CURRENT_USER_KEY, email);
+        setLoggedInState(true, email);
+        loadProfile(email);
+    });
+
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem(CURRENT_USER_KEY);
+        setLoggedInState(false);
+    });
+
+    document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea').forEach((input) => {
+        input.addEventListener('input', (event) => {
+            const email = getCurrentUserEmail();
+            if (!email) return;
+            const name = event.target.name;
+            if (supplierFields.includes(name) || recipientFields.includes(name)) {
+                saveProfileField(email, name, event.target.value);
+            }
+        });
+    });
 
     addItemButton.addEventListener('click', () => {
         const newRow = invoiceItemsTable.insertRow();
@@ -49,6 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
             stampDataUrl = '';
             stampPreview.style.display = 'none';
             previewStamp.style.display = 'none';
+            const email = getCurrentUserEmail();
+            if (email) {
+                updateUser(email, (user) => {
+                    user.profile.stamp = '';
+                });
+            }
             return;
         }
 
@@ -59,6 +238,12 @@ document.addEventListener('DOMContentLoaded', () => {
             stampPreview.style.display = 'block';
             previewStamp.src = stampDataUrl;
             previewStamp.style.display = 'block';
+            const email = getCurrentUserEmail();
+            if (email) {
+                updateUser(email, (user) => {
+                    user.profile.stamp = stampDataUrl;
+                });
+            }
         };
         reader.readAsDataURL(file);
     });
@@ -87,6 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generateInvoiceButton = document.getElementById('generate-invoice');
     generateInvoiceButton.addEventListener('click', () => {
+        const email = ensureLoggedIn();
+        if (!email) return;
         //- `supplier_reg_num`
         //- `supplier_name`
         //- `supplier_owner`
@@ -122,12 +309,21 @@ document.addEventListener('DOMContentLoaded', () => {
         previewInvoiceItems.innerHTML = '';
         const rows = invoiceItemsTable.getElementsByTagName('tr');
         for (const row of rows) {
+            const quantityInput = row.querySelector('[name="item_quantity"]');
+            const priceInput = row.querySelector('[name="item_price"]');
+            if (quantityInput.value.trim() === '' || priceInput.value.trim() === '') {
+                alert('수량과 단가를 입력해주세요.');
+                (quantityInput.value.trim() === '' ? quantityInput : priceInput).focus();
+                return;
+            }
+        }
+        for (const row of rows) {
             const newRow = previewInvoiceItems.insertRow();
             const isTaxExempt = row.querySelector('[name="item_tax_exempt"]').checked;
             newRow.innerHTML = `
                 <td>${row.querySelector('[name="item_name"]').value}</td>
-                <td>${parseInt(row.querySelector('[name="item_quantity"]').value, 10).toLocaleString()}</td>
-                <td>${parseInt(row.querySelector('[name="item_price"]').value, 10).toLocaleString()}</td>
+                <td>${(parseInt(row.querySelector('[name="item_quantity"]').value, 10) || 0).toLocaleString()}</td>
+                <td>${(parseInt(row.querySelector('[name="item_price"]').value, 10) || 0).toLocaleString()}</td>
                 <td>${row.querySelector('.supply-price').textContent}</td>
                 <td>${row.querySelector('.tax').textContent}</td>
                 <td>${isTaxExempt ? '비과세' : ''}</td>
@@ -145,15 +341,45 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             previewStamp.style.display = 'none';
         }
+
+        const invoiceItems = [];
+        for (const row of rows) {
+            invoiceItems.push({
+                name: row.querySelector('[name="item_name"]').value,
+                quantity: row.querySelector('[name="item_quantity"]').value,
+                price: row.querySelector('[name="item_price"]').value,
+                supplyPrice: row.querySelector('.supply-price').textContent,
+                tax: row.querySelector('.tax').textContent,
+                taxExempt: row.querySelector('[name="item_tax_exempt"]').checked
+            });
+        }
+
+        updateUser(email, (user) => {
+            user.invoices.push({
+                createdAt: new Date().toISOString(),
+                supplier: { ...user.profile.supplier },
+                recipient: { ...user.profile.recipient },
+                transactionDate: document.querySelector('[name="transaction_date"]').value,
+                terms: document.querySelector('[name="transaction_terms"]').value,
+                items: invoiceItems,
+                totals: {
+                    supply: document.getElementById('total-supply-price').textContent,
+                    tax: document.getElementById('total-tax').textContent,
+                    amount: document.getElementById('total-amount').textContent
+                }
+            });
+        });
     });
 
     const printInvoiceButton = document.getElementById('print-invoice');
     printInvoiceButton.addEventListener('click', () => {
+        if (!ensureLoggedIn()) return;
         window.print();
     });
 
     const downloadPdfButton = document.getElementById('download-pdf');
     downloadPdfButton.addEventListener('click', () => {
+        if (!ensureLoggedIn()) return;
         const { jsPDF } = window.jspdf;
         const invoicePreview = document.querySelector('.invoice-preview');
 
@@ -166,4 +392,12 @@ document.addEventListener('DOMContentLoaded', () => {
             pdf.save('거래명세서.pdf');
         });
     });
+
+    const savedEmail = getCurrentUserEmail();
+    if (savedEmail) {
+        setLoggedInState(true, savedEmail);
+        loadProfile(savedEmail);
+    } else {
+        setLoggedInState(false);
+    }
 });

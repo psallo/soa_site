@@ -12,6 +12,23 @@
 <body>
     <h1 class="page-title">거래명세서 생성기</h1>
 
+    <section class="auth-panel">
+        <div class="auth-fields">
+            <label>이메일
+                <input type="email" id="login-email" placeholder="name@example.com">
+            </label>
+            <label>비밀번호
+                <input type="password" id="login-password" placeholder="비밀번호">
+            </label>
+        </div>
+        <div class="auth-actions">
+            <button type="button" id="login-button">로그인</button>
+            <button type="button" id="logout-button" disabled>로그아웃</button>
+            <p class="auth-note">처음 로그인한 이메일은 새 계정으로 저장됩니다.</p>
+            <p class="auth-status" id="auth-status">로그인 필요</p>
+        </div>
+    </section>
+
     <form id="invoice-form">
         <div class="company-info">
             <div class="recipient">
