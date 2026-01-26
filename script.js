@@ -153,9 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoggedInState(false);
         loginEmail.value = '';
         loginPassword.value = '';
-        stampDataUrl = '';
-        stampPreview.style.display = 'none';
-        previewStamp.style.display = 'none';
         document.querySelectorAll('#invoice-form input[type="text"], #invoice-form input[type="number"], #invoice-form input[type="date"], #invoice-form textarea').forEach((input) => {
             input.value = '';
         });
@@ -171,14 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </tr>
         `;
         updateTotals();
-        document.querySelectorAll('.invoice-preview span, .invoice-preview p').forEach((el) => {
-            if (el.id === 'preview-transaction-terms') return;
-            if (el.tagName.toLowerCase() === 'span') {
-                el.textContent = '';
-            }
-        });
-        document.getElementById('preview-transaction-terms').textContent = '';
-        document.getElementById('preview-invoice-items').innerHTML = '';
     });
 
     document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea').forEach((input) => {
@@ -382,6 +371,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
+        }
+
+        const previewSection = document.getElementById('invoice-preview');
+        if (previewSection) {
+            previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 
