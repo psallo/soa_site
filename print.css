@@ -9,7 +9,7 @@
         height: 297mm;
         margin: 0;
         padding: 0;
-        background: #ffffff;
+        background: transparent;
     }
 
     body * {
@@ -27,7 +27,7 @@
         padding: 12mm;
         border: none;
         box-shadow: none;
-        background: #ffffff;
+        background: transparent;
     }
     #print-invoice, #download-pdf, #generate-invoice, #invoice-form, .totals, .page-title, .site-footer {
         display: none;
