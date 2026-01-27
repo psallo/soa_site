@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>거래명세서 생성기</title>
-    <meta name="description" content="거래명세서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요. 공급자/공급받는자 정보, 품목별 세액/면세, 거래조건까지 한 번에 관리합니다.">
-    <meta name="keywords" content="거래명세서, 거래명세서 양식, 거래명세서 작성, 거래명세서 PDF, 공급자, 공급받는자, 세액, 면세, 거래조건, 인쇄">
-    <meta property="og:title" content="거래명세서 생성기">
-    <meta property="og:description" content="거래명세서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
+    <title>견적서 생성기</title>
+    <meta name="description" content="견적서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요. 공급자/고객 정보, 품목별 부가세/면세, 견적조건까지 한 번에 관리합니다.">
+    <meta name="keywords" content="견적서, 견적서 양식, 견적서 작성, 견적서 PDF, 공급자, 고객, 부가세, 면세, 견적조건, 인쇄">
+    <meta property="og:title" content="견적서 생성기">
+    <meta property="og:description" content="견적서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="SOA Site">
-    <meta property="og:url" content="https://soa-site.pages.dev/">
+    <meta property="og:url" content="https://soa-site.pages.dev/estimate.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="견적서 생성기">
+    <meta name="twitter:description" content="견적서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
     <meta name="robots" content="index,follow">
     <meta name="author" content="psallo">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="거래명세서 생성기">
-    <meta name="twitter:description" content="거래명세서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
-    <link rel="canonical" href="https://soa-site.pages.dev/">
+    <link rel="canonical" href="https://soa-site.pages.dev/estimate.html">
     <meta name="google-adsense-account" content="ca-pub-7089972556237139">
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          "name": "거래명세서 생성기",
+          "name": "견적서 생성기",
           "applicationCategory": "BusinessApplication",
           "operatingSystem": "Any",
-          "description": "거래명세서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장할 수 있는 도구입니다.",
+          "description": "견적서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장할 수 있는 도구입니다.",
           "inLanguage": "ko-KR",
           "offers": {
             "@type": "Offer",
@@ -49,8 +49,8 @@
 </head>
 <body>
     <header class="site-header">
-        <h1 class="page-title">거래명세서 생성기</h1>
-        <p class="page-subtitle">거래명세서를 빠르고 정확하게 작성하고, 인쇄/PDF까지 한 번에 처리하세요.</p>
+        <h1 class="page-title">견적서 생성기</h1>
+        <p class="page-subtitle">견적서를 빠르고 정확하게 작성하고, 인쇄/PDF까지 한 번에 처리하세요.</p>
         <nav class="site-nav">
             <a href="#tool">도구</a>
             <a href="#guide">작성 가이드</a>
@@ -58,6 +58,7 @@
             <a href="#faq">FAQ</a>
             <a href="#policies">정책</a>
             <a href="estimate.html">견적서</a>
+            <a href="index.html">거래명세서</a>
             <a href="work-sites.html">업무 사이트</a>
             <a href="work-guides.html">업무 자료</a>
         </nav>
@@ -84,43 +85,35 @@
     <form id="invoice-form">
         <div class="company-info">
             <div class="recipient">
-                <h2>공급받는자</h2>
-                <label>등록번호: <input type="text" name="recipient_reg_num"></label>
+                <h2>고객</h2>
+                <label>고객사명: <input type="text" name="recipient_company"></label>
                 <div class="field-row">
-                    <label>상호: <input type="text" name="recipient_name"></label>
-                    <label>성명: <input type="text" name="recipient_owner"></label>
+                    <label>담당자명: <input type="text" name="recipient_contact"></label>
+                    <label>연락처: <input type="text" name="recipient_phone"></label>
                 </div>
-                <label>사업장 주소: <input type="text" name="recipient_address"></label>
-                <div class="field-row">
-                    <label>업태: <input type="text" name="recipient_biz_type"></label>
-                    <label>종목: <input type="text" name="recipient_biz_item"></label>
-                </div>
-                <label>전화번호: <input type="text" name="recipient_tel"></label>
                 <label>이메일: <input type="text" name="recipient_email"></label>
+                <label>주소: <input type="text" name="recipient_address"></label>
             </div>
             <div class="supplier">
                 <h2>공급자</h2>
-                <label>등록번호: <input type="text" name="supplier_reg_num"></label>
+                <label>업체명: <input type="text" name="supplier_company"></label>
                 <div class="field-row">
-                    <label>상호: <input type="text" name="supplier_name"></label>
-                    <label>성명: <input type="text" name="supplier_owner"></label>
+                    <label>담당자명: <input type="text" name="supplier_contact"></label>
+                    <label>연락처: <input type="text" name="supplier_phone"></label>
                 </div>
-                <label>사업장 주소: <input type="text" name="supplier_address"></label>
-                <div class="field-row">
-                    <label>업태: <input type="text" name="supplier_biz_type"></label>
-                    <label>종목: <input type="text" name="supplier_biz_item"></label>
-                </div>
-                <label>전화번호: <input type="text" name="supplier_tel"></label>
-                <label>이메일: <input type="text" name="supplier_email"></label>
-                <label class="stamp-upload-row">직인 등록:
-                    <input type="file" id="supplier-stamp" accept="image/*">
-                    <img id="supplier-stamp-preview" alt="도장 미리보기">
-                </label>
+                <label>견적일자: <input type="date" name="estimate_date"></label>
             </div>
         </div>
 
         <div class="transaction-info">
-            <label>거래일자: <input type="date" name="transaction_date"></label>
+            <div class="field-row">
+                <label>견적번호: <input type="text" name="estimate_number"></label>
+                <label>유효기간: <input type="date" name="estimate_valid_until"></label>
+            </div>
+            <div class="field-row">
+                <label>납기일: <input type="date" name="delivery_date"></label>
+                <label>결제조건: <input type="text" name="payment_terms"></label>
+            </div>
         </div>
 
         <table id="invoice-items">
@@ -130,7 +123,7 @@
                     <th>수량</th>
                     <th>단가</th>
                     <th>공급가액</th>
-                    <th>세액</th>
+                    <th>부가세</th>
                     <th>면세</th>
                     <th>삭제</th>
                 </tr>
@@ -150,43 +143,44 @@
         <button type="button" id="add-item">품목 추가</button>
 
         <div class="terms-section">
-            <label>거래조건:
-                <textarea name="transaction_terms" rows="4" placeholder="결제 조건, 납기, 기타 특약 등을 입력하세요."></textarea>
+            <label>견적 조건/비고:
+                <textarea name="estimate_notes" rows="4" placeholder="특약, 참고사항, 안내 문구 등을 입력하세요."></textarea>
             </label>
         </div>
     </form>
 
     <div class="totals">
-        <h3>합계</h3>
+        <h3>금액 합계</h3>
         <p>총 공급가액: <span id="total-supply-price">0</span></p>
-        <p>총 세액: <span id="total-tax">0</span></p>
+        <p>총 부가세: <span id="total-tax">0</span></p>
         <p>합계 금액: <span id="total-amount">0</span></p>
     </div>
 
-    <button type="button" id="generate-invoice">거래명세서 생성</button>
+    <button type="button" id="generate-invoice">견적서 생성</button>
     <button type="button" id="print-invoice">인쇄</button>
     <button type="button" id="download-pdf">PDF로 다운로드</button>
 
     <section class="content-section" id="guide">
         <h2>작성 가이드</h2>
         <ol>
-            <li>공급자/공급받는자 정보를 입력합니다.</li>
+            <li>공급자/고객 정보를 입력합니다.</li>
+            <li>견적번호, 유효기간, 납기일, 결제조건을 입력합니다.</li>
             <li>품목을 추가하고 수량/단가를 입력합니다.</li>
-            <li>면세 품목이면 면세 체크를 선택합니다.</li>
-            <li>거래조건을 입력한 뒤 거래명세서 생성을 눌러 미리보기를 확인합니다.</li>
+            <li>면세 항목이면 면세 체크를 선택합니다.</li>
+            <li>견적 조건/비고를 입력한 뒤 견적서 생성을 눌러 미리보기를 확인합니다.</li>
             <li>인쇄 또는 PDF로 다운로드합니다.</li>
         </ol>
     </section>
 
     <section class="content-section" id="examples">
         <h2>예시</h2>
-        <p>간단한 매입/매출 거래, 납품 내역 정리, 세액/면세 구분이 필요한 거래에 활용할 수 있습니다.</p>
+        <p>외주 견적, 납품/제작 비용 산정, 장비 렌탈 견적 등 다양한 견적서 작성에 활용할 수 있습니다.</p>
     </section>
 
     <section class="content-section" id="faq">
         <h2>FAQ</h2>
-        <h3>면세 품목은 어떻게 표시되나요?</h3>
-        <p>면세 체크 시 세액이 0으로 계산되며, 미리보기의 비고에 “면세”로 표시됩니다.</p>
+        <h3>면세 항목은 어떻게 표시되나요?</h3>
+        <p>면세 체크 시 부가세가 0으로 계산되며, 미리보기의 비고에 “면세”로 표시됩니다.</p>
         <h3>로그인 정보는 어디에 저장되나요?</h3>
         <p>서버가 아닌 사용자의 브라우저 저장소에만 저장되며, 다른 기기/브라우저와 공유되지 않습니다.</p>
         <h3>인쇄 시 회색 배경이 보일 수 있어요.</h3>
@@ -220,42 +214,35 @@
 
     <div class="invoice-preview" id="invoice-preview">
         <div class="invoice-header">
-            <h1>거래명세서</h1>
+            <h1>견적서</h1>
         </div>
         <div class="invoice-company-info">
             <div class="invoice-recipient">
-                <h2>공급받는자</h2>
-                <p><strong>등록번호:</strong> <span id="preview-recipient-reg-num"></span></p>
+                <h2>고객</h2>
+                <p><strong>고객사명:</strong> <span id="preview-recipient-company"></span></p>
                 <p class="pair-row">
-                    <span class="pair-col"><strong>상호:</strong> <span id="preview-recipient-name"></span></span>
-                    <span class="pair-col"><strong>성명:</strong> <span id="preview-recipient-owner"></span></span>
+                    <span class="pair-col"><strong>담당자명:</strong> <span id="preview-recipient-contact"></span></span>
+                    <span class="pair-col"><strong>연락처:</strong> <span id="preview-recipient-phone"></span></span>
                 </p>
-                <p><strong>사업장 주소:</strong> <span id="preview-recipient-address"></span></p>
-                <p class="pair-row">
-                    <span class="pair-col"><strong>업태:</strong> <span id="preview-recipient-biz-type"></span></span>
-                    <span class="pair-col"><strong>종목:</strong> <span id="preview-recipient-biz-item"></span></span>
-                </p>
-                <p><strong>전화번호:</strong> <span id="preview-recipient-tel"></span></p>
                 <p><strong>이메일:</strong> <span id="preview-recipient-email"></span></p>
+                <p><strong>주소:</strong> <span id="preview-recipient-address"></span></p>
             </div>
             <div class="invoice-supplier">
                 <h2>공급자</h2>
-                <p><strong>등록번호:</strong> <span id="preview-supplier-reg-num"></span></p>
+                <p><strong>업체명:</strong> <span id="preview-supplier-company"></span></p>
                 <p class="pair-row">
-                    <span class="pair-col"><strong>상호:</strong> <span id="preview-supplier-name"></span></span>
-                    <span class="pair-col"><strong>성명:</strong> <span id="preview-supplier-owner"></span></span>
+                    <span class="pair-col"><strong>담당자명:</strong> <span id="preview-supplier-contact"></span></span>
+                    <span class="pair-col"><strong>연락처:</strong> <span id="preview-supplier-phone"></span></span>
                 </p>
-                <img id="preview-supplier-stamp" alt="도장 이미지">
-                <p><strong>사업장 주소:</strong> <span id="preview-supplier-address"></span></p>
-                <p class="pair-row">
-                    <span class="pair-col"><strong>업태:</strong> <span id="preview-supplier-biz-type"></span></span>
-                    <span class="pair-col"><strong>종목:</strong> <span id="preview-supplier-biz-item"></span></span>
-                </p>
-                <p><strong>전화번호:</strong> <span id="preview-supplier-tel"></span></p>
-                <p><strong>이메일:</strong> <span id="preview-supplier-email"></span></p>
+                <p><strong>견적일자:</strong> <span id="preview-estimate-date"></span></p>
             </div>
         </div>
-        <p><strong>거래일자:</strong> <span id="preview-transaction-date"></span></p>
+        <div class="invoice-totals">
+            <p><strong>견적번호:</strong> <span id="preview-estimate-number"></span></p>
+            <p><strong>유효기간:</strong> <span id="preview-estimate-valid-until"></span></p>
+            <p><strong>납기일:</strong> <span id="preview-delivery-date"></span></p>
+            <p><strong>결제조건:</strong> <span id="preview-payment-terms"></span></p>
+        </div>
         <table class="invoice-items-table">
             <thead>
                 <tr>
@@ -263,7 +250,7 @@
                     <th>수량</th>
                     <th>단가</th>
                     <th>공급가액</th>
-                    <th>세액</th>
+                    <th>부가세</th>
                     <th>비고</th>
                 </tr>
             </thead>
@@ -272,15 +259,15 @@
         </table>
         <div class="invoice-totals">
             <p><strong>총 공급가액:</strong> <span id="preview-total-supply-price"></span></p>
-            <p><strong>총 세액:</strong> <span id="preview-total-tax"></span></p>
+            <p><strong>총 부가세:</strong> <span id="preview-total-tax"></span></p>
             <p><strong>합계 금액:</strong> <span id="preview-total-amount"></span></p>
         </div>
         <div class="invoice-terms">
-            <h3>거래조건</h3>
-            <p id="preview-transaction-terms"></p>
+            <h3>견적 조건/비고</h3>
+            <p id="preview-estimate-notes"></p>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="estimate.js"></script>
 </body>
 </html>

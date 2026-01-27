@@ -1,12 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const USERS_KEY = 'soa_users';
-    const CURRENT_USER_KEY = 'soa_current_user';
+    const USERS_KEY = 'soa_estimate_users';
+    const CURRENT_USER_KEY = 'soa_estimate_current_user';
     const addItemButton = document.getElementById('add-item');
     const invoiceItemsTable = document.getElementById('invoice-items').getElementsByTagName('tbody')[0];
-    const stampInput = document.getElementById('supplier-stamp');
-    const stampPreview = document.getElementById('supplier-stamp-preview');
-    const previewStamp = document.getElementById('preview-supplier-stamp');
-    let stampDataUrl = '';
     const loginEmail = document.getElementById('login-email');
     const loginPassword = document.getElementById('login-password');
     const loginButton = document.getElementById('login-button');
@@ -14,25 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const authStatus = document.getElementById('auth-status');
 
     const supplierFields = [
-        'supplier_reg_num',
-        'supplier_name',
-        'supplier_owner',
-        'supplier_address',
-        'supplier_biz_type',
-        'supplier_biz_item',
-        'supplier_tel',
-        'supplier_email'
+        'supplier_company',
+        'supplier_contact',
+        'supplier_phone'
     ];
 
     const recipientFields = [
-        'recipient_reg_num',
-        'recipient_name',
-        'recipient_owner',
-        'recipient_address',
-        'recipient_biz_type',
-        'recipient_biz_item',
-        'recipient_tel',
-        'recipient_email'
+        'recipient_company',
+        'recipient_contact',
+        'recipient_phone',
+        'recipient_email',
+        'recipient_address'
     ];
 
     function loadUsers() {
@@ -62,10 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
             users[email] = {
                 profile: {
                     supplier: {},
-                    recipient: {},
-                    stamp: ''
+                    recipient: {}
                 },
-                invoices: []
+                estimates: []
             };
             saveUsers(users);
         }
@@ -94,18 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = document.querySelector(`[name="${field}"]`);
             input.value = user.profile.recipient[field] || '';
         });
-
-        if (user.profile.stamp) {
-            stampDataUrl = user.profile.stamp;
-            stampPreview.src = stampDataUrl;
-            stampPreview.style.display = 'block';
-            previewStamp.src = stampDataUrl;
-            previewStamp.style.display = 'block';
-        } else {
-            stampDataUrl = '';
-            stampPreview.style.display = 'none';
-            previewStamp.style.display = 'none';
-        }
     }
 
     function saveProfileField(email, fieldName, value) {
@@ -218,38 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    stampInput.addEventListener('change', (event) => {
-        const [file] = event.target.files;
-        if (!file) {
-            stampDataUrl = '';
-            stampPreview.style.display = 'none';
-            previewStamp.style.display = 'none';
-            const email = getCurrentUserEmail();
-            if (email) {
-                updateUser(email, (user) => {
-                    user.profile.stamp = '';
-                });
-            }
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            stampDataUrl = reader.result;
-            stampPreview.src = stampDataUrl;
-            stampPreview.style.display = 'block';
-            previewStamp.src = stampDataUrl;
-            previewStamp.style.display = 'block';
-            const email = getCurrentUserEmail();
-            if (email) {
-                updateUser(email, (user) => {
-                    user.profile.stamp = stampDataUrl;
-                });
-            }
-        };
-        reader.readAsDataURL(file);
-    });
-
     function updateTotals() {
         let totalSupplyPrice = 0;
         let totalTax = 0;
@@ -275,37 +218,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateInvoiceButton = document.getElementById('generate-invoice');
     generateInvoiceButton.addEventListener('click', () => {
         const email = getCurrentUserEmail();
-        //- `supplier_reg_num`
-        //- `supplier_name`
-        //- `supplier_owner`
-        //- `supplier_address`
-        //- `supplier_biz_type`
-        //- `supplier_biz_item`
-        //- `supplier_tel`
-        document.getElementById('preview-supplier-reg-num').textContent = document.querySelector('[name="supplier_reg_num"]').value;
-        document.getElementById('preview-supplier-name').textContent = document.querySelector('[name="supplier_name"]').value;
-        document.getElementById('preview-supplier-owner').textContent = document.querySelector('[name="supplier_owner"]').value;
-        document.getElementById('preview-supplier-address').textContent = document.querySelector('[name="supplier_address"]').value;
-        document.getElementById('preview-supplier-biz-type').textContent = document.querySelector('[name="supplier_biz_type"]').value;
-        document.getElementById('preview-supplier-biz-item').textContent = document.querySelector('[name="supplier_biz_item"]').value;
-        document.getElementById('preview-supplier-tel').textContent = document.querySelector('[name="supplier_tel"]').value;
-        document.getElementById('preview-supplier-email').textContent = document.querySelector('[name="supplier_email"]').value;
 
-        // Recipient
-        document.getElementById('preview-recipient-reg-num').textContent = document.querySelector('[name="recipient_reg_num"]').value;
-        document.getElementById('preview-recipient-name').textContent = document.querySelector('[name="recipient_name"]').value;
-        document.getElementById('preview-recipient-owner').textContent = document.querySelector('[name="recipient_owner"]').value;
-        document.getElementById('preview-recipient-address').textContent = document.querySelector('[name="recipient_address"]').value;
-        document.getElementById('preview-recipient-biz-type').textContent = document.querySelector('[name="recipient_biz_type"]').value;
-        document.getElementById('preview-recipient-biz-item').textContent = document.querySelector('[name="recipient_biz_item"]').value;
-        document.getElementById('preview-recipient-tel').textContent = document.querySelector('[name="recipient_tel"]').value;
+        document.getElementById('preview-supplier-company').textContent = document.querySelector('[name="supplier_company"]').value;
+        document.getElementById('preview-supplier-contact').textContent = document.querySelector('[name="supplier_contact"]').value;
+        document.getElementById('preview-supplier-phone').textContent = document.querySelector('[name="supplier_phone"]').value;
+        document.getElementById('preview-estimate-date').textContent = document.querySelector('[name="estimate_date"]').value;
+
+        document.getElementById('preview-recipient-company').textContent = document.querySelector('[name="recipient_company"]').value;
+        document.getElementById('preview-recipient-contact').textContent = document.querySelector('[name="recipient_contact"]').value;
+        document.getElementById('preview-recipient-phone').textContent = document.querySelector('[name="recipient_phone"]').value;
         document.getElementById('preview-recipient-email').textContent = document.querySelector('[name="recipient_email"]').value;
+        document.getElementById('preview-recipient-address').textContent = document.querySelector('[name="recipient_address"]').value;
 
-        // Transaction Date
-        document.getElementById('preview-transaction-date').textContent = document.querySelector('[name="transaction_date"]').value;
-        document.getElementById('preview-transaction-terms').textContent = document.querySelector('[name="transaction_terms"]').value;
+        document.getElementById('preview-estimate-number').textContent = document.querySelector('[name="estimate_number"]').value;
+        document.getElementById('preview-estimate-valid-until').textContent = document.querySelector('[name="estimate_valid_until"]').value;
+        document.getElementById('preview-delivery-date').textContent = document.querySelector('[name="delivery_date"]').value;
+        document.getElementById('preview-payment-terms').textContent = document.querySelector('[name="payment_terms"]').value;
+        document.getElementById('preview-estimate-notes').textContent = document.querySelector('[name="estimate_notes"]').value;
 
-        // Items
         const previewInvoiceItems = document.getElementById('preview-invoice-items');
         previewInvoiceItems.innerHTML = '';
         const rows = invoiceItemsTable.getElementsByTagName('tr');
@@ -331,21 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
 
-        // Totals
         document.getElementById('preview-total-supply-price').textContent = document.getElementById('total-supply-price').textContent;
         document.getElementById('preview-total-tax').textContent = document.getElementById('total-tax').textContent;
         document.getElementById('preview-total-amount').textContent = document.getElementById('total-amount').textContent;
 
-        if (stampDataUrl) {
-            previewStamp.src = stampDataUrl;
-            previewStamp.style.display = 'block';
-        } else {
-            previewStamp.style.display = 'none';
-        }
-
-        const invoiceItems = [];
+        const estimateItems = [];
         for (const row of rows) {
-            invoiceItems.push({
+            estimateItems.push({
                 name: row.querySelector('[name="item_name"]').value,
                 quantity: row.querySelector('[name="item_quantity"]').value,
                 price: row.querySelector('[name="item_price"]').value,
@@ -357,13 +279,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (email) {
             updateUser(email, (user) => {
-                user.invoices.push({
+                user.estimates.push({
                     createdAt: new Date().toISOString(),
                     supplier: { ...user.profile.supplier },
                     recipient: { ...user.profile.recipient },
-                    transactionDate: document.querySelector('[name="transaction_date"]').value,
-                    terms: document.querySelector('[name="transaction_terms"]').value,
-                    items: invoiceItems,
+                    estimateDate: document.querySelector('[name="estimate_date"]').value,
+                    estimateNumber: document.querySelector('[name="estimate_number"]').value,
+                    validUntil: document.querySelector('[name="estimate_valid_until"]').value,
+                    deliveryDate: document.querySelector('[name="delivery_date"]').value,
+                    paymentTerms: document.querySelector('[name="payment_terms"]').value,
+                    notes: document.querySelector('[name="estimate_notes"]').value,
+                    items: estimateItems,
                     totals: {
                         supply: document.getElementById('total-supply-price').textContent,
                         tax: document.getElementById('total-tax').textContent,
@@ -397,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('거래명세서.pdf');
+            pdf.save('견적서.pdf');
         });
     });
 
