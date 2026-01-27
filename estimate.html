@@ -12,9 +12,13 @@
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="SOA Site">
     <meta property="og:url" content="https://soa-site.pages.dev/estimate.html">
+    <meta property="og:image" content="https://soa-site.pages.dev/og-image.svg">
+    <meta property="og:image:alt" content="SOA Site 견적서 생성기">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="견적서 생성기">
     <meta name="twitter:description" content="견적서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
+    <meta name="twitter:image" content="https://soa-site.pages.dev/og-image.svg">
+    <meta name="twitter:image:alt" content="SOA Site 견적서 생성기">
     <meta name="robots" content="index,follow">
     <meta name="author" content="psallo">
     <link rel="canonical" href="https://soa-site.pages.dev/estimate.html">
@@ -47,18 +51,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body>
+<body class="estimate-page">
     <header class="site-header">
         <h1 class="page-title">견적서 생성기</h1>
         <p class="page-subtitle">견적서를 빠르고 정확하게 작성하고, 인쇄/PDF까지 한 번에 처리하세요.</p>
         <nav class="site-nav">
+            <a class="nav-highlight" href="index.html">거래명세서</a>
+            <a class="nav-highlight" href="estimate.html">견적서</a>
             <a href="#tool">도구</a>
             <a href="#guide">작성 가이드</a>
             <a href="#examples">예시</a>
             <a href="#faq">FAQ</a>
             <a href="#policies">정책</a>
-            <a href="estimate.html">견적서</a>
-            <a href="index.html">거래명세서</a>
             <a href="work-sites.html">업무 사이트</a>
             <a href="work-guides.html">업무 자료</a>
         </nav>
@@ -87,21 +91,29 @@
             <div class="recipient">
                 <h2>고객</h2>
                 <label>고객사명: <input type="text" name="recipient_company"></label>
-                <div class="field-row">
-                    <label>담당자명: <input type="text" name="recipient_contact"></label>
-                    <label>연락처: <input type="text" name="recipient_phone"></label>
-                </div>
+                <label>담당자명: <input type="text" name="recipient_contact"></label>
+                <label>전화번호: <input type="text" name="recipient_phone"></label>
                 <label>이메일: <input type="text" name="recipient_email"></label>
-                <label>주소: <input type="text" name="recipient_address"></label>
             </div>
             <div class="supplier">
                 <h2>공급자</h2>
-                <label>업체명: <input type="text" name="supplier_company"></label>
+                <label>사업자등록번호: <input type="text" name="supplier_reg_num"></label>
                 <div class="field-row">
-                    <label>담당자명: <input type="text" name="supplier_contact"></label>
-                    <label>연락처: <input type="text" name="supplier_phone"></label>
+                    <label>상호: <input type="text" name="supplier_name"></label>
+                    <label>대표자: <input type="text" name="supplier_owner"></label>
                 </div>
+                <label>사업장 주소: <input type="text" name="supplier_address"></label>
+                <div class="field-row">
+                    <label>업태: <input type="text" name="supplier_biz_type"></label>
+                    <label>종목: <input type="text" name="supplier_biz_item"></label>
+                </div>
+                <label>전화번호: <input type="text" name="supplier_tel"></label>
+                <label>이메일: <input type="text" name="supplier_email"></label>
                 <label>견적일자: <input type="date" name="estimate_date"></label>
+                <label class="stamp-upload-row">직인 등록:
+                    <input type="file" id="supplier-stamp" accept="image/*">
+                    <img id="supplier-stamp-preview" alt="도장 미리보기">
+                </label>
             </div>
         </div>
 
@@ -219,21 +231,29 @@
         <div class="invoice-company-info">
             <div class="invoice-recipient">
                 <h2>고객</h2>
-                <p><strong>고객사명:</strong> <span id="preview-recipient-company"></span></p>
+                <p><strong>고객사명:</strong> <span id="preview-recipient-company"></span> 귀하</p>
                 <p class="pair-row">
                     <span class="pair-col"><strong>담당자명:</strong> <span id="preview-recipient-contact"></span></span>
-                    <span class="pair-col"><strong>연락처:</strong> <span id="preview-recipient-phone"></span></span>
                 </p>
+                <p><strong>전화번호:</strong> <span id="preview-recipient-phone"></span></p>
                 <p><strong>이메일:</strong> <span id="preview-recipient-email"></span></p>
-                <p><strong>주소:</strong> <span id="preview-recipient-address"></span></p>
             </div>
             <div class="invoice-supplier">
                 <h2>공급자</h2>
-                <p><strong>업체명:</strong> <span id="preview-supplier-company"></span></p>
+                <p><strong>사업자등록번호:</strong> <span id="preview-supplier-reg-num"></span></p>
                 <p class="pair-row">
-                    <span class="pair-col"><strong>담당자명:</strong> <span id="preview-supplier-contact"></span></span>
-                    <span class="pair-col"><strong>연락처:</strong> <span id="preview-supplier-phone"></span></span>
+                    <span class="pair-col"><strong>상호:</strong> <span id="preview-supplier-name"></span></span>
+                    <span class="pair-col owner-col"><strong>대표자:</strong> <span id="preview-supplier-owner"></span>
+                        <img id="preview-supplier-stamp" alt="도장 이미지">
+                    </span>
                 </p>
+                <p><strong>사업장 주소:</strong> <span id="preview-supplier-address"></span></p>
+                <p class="pair-row">
+                    <span class="pair-col"><strong>업태:</strong> <span id="preview-supplier-biz-type"></span></span>
+                    <span class="pair-col"><strong>종목:</strong> <span id="preview-supplier-biz-item"></span></span>
+                </p>
+                <p><strong>전화번호:</strong> <span id="preview-supplier-tel"></span></p>
+                <p><strong>이메일:</strong> <span id="preview-supplier-email"></span></p>
                 <p><strong>견적일자:</strong> <span id="preview-estimate-date"></span></p>
             </div>
         </div>

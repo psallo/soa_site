@@ -43,6 +43,13 @@ body {
     font-size: 13px;
 }
 
+.site-nav a.nav-highlight {
+    background: linear-gradient(135deg, #2f6af7 0%, #1fc5a6 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 8px 18px rgba(47, 106, 247, 0.25);
+}
+
 #invoice-form {
     width: min(1100px, 92%);
     margin-top: 20px;
@@ -440,6 +447,19 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     object-fit: contain;
     z-index: 10;
     display: none;
+}
+
+.estimate-page .owner-col {
+    position: relative;
+    padding-right: 52px;
+}
+
+.estimate-page #preview-supplier-stamp {
+    top: -4px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
+    z-index: 12;
 }
 
 .inline-sep {

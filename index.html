@@ -12,11 +12,15 @@
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="SOA Site">
     <meta property="og:url" content="https://soa-site.pages.dev/">
+    <meta property="og:image" content="https://soa-site.pages.dev/og-image.svg">
+    <meta property="og:image:alt" content="SOA Site 거래명세서/견적서 생성기">
     <meta name="robots" content="index,follow">
     <meta name="author" content="psallo">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="거래명세서 생성기">
     <meta name="twitter:description" content="거래명세서 양식을 빠르고 정확하게 작성하고 인쇄/PDF로 저장하세요.">
+    <meta name="twitter:image" content="https://soa-site.pages.dev/og-image.svg">
+    <meta name="twitter:image:alt" content="SOA Site 거래명세서/견적서 생성기">
     <link rel="canonical" href="https://soa-site.pages.dev/">
     <meta name="google-adsense-account" content="ca-pub-7089972556237139">
     <script type="application/ld+json">
@@ -52,12 +56,13 @@
         <h1 class="page-title">거래명세서 생성기</h1>
         <p class="page-subtitle">거래명세서를 빠르고 정확하게 작성하고, 인쇄/PDF까지 한 번에 처리하세요.</p>
         <nav class="site-nav">
+            <a class="nav-highlight" href="index.html">거래명세서</a>
+            <a class="nav-highlight" href="estimate.html">견적서</a>
             <a href="#tool">도구</a>
             <a href="#guide">작성 가이드</a>
             <a href="#examples">예시</a>
             <a href="#faq">FAQ</a>
             <a href="#policies">정책</a>
-            <a href="estimate.html">견적서</a>
             <a href="work-sites.html">업무 사이트</a>
             <a href="work-guides.html">업무 자료</a>
         </nav>
@@ -85,10 +90,10 @@
         <div class="company-info">
             <div class="recipient">
                 <h2>공급받는자</h2>
-                <label>등록번호: <input type="text" name="recipient_reg_num"></label>
+                <label>사업자등록번호: <input type="text" name="recipient_reg_num"></label>
                 <div class="field-row">
                     <label>상호: <input type="text" name="recipient_name"></label>
-                    <label>성명: <input type="text" name="recipient_owner"></label>
+                    <label>대표자: <input type="text" name="recipient_owner"></label>
                 </div>
                 <label>사업장 주소: <input type="text" name="recipient_address"></label>
                 <div class="field-row">
@@ -100,10 +105,10 @@
             </div>
             <div class="supplier">
                 <h2>공급자</h2>
-                <label>등록번호: <input type="text" name="supplier_reg_num"></label>
+                <label>사업자등록번호: <input type="text" name="supplier_reg_num"></label>
                 <div class="field-row">
                     <label>상호: <input type="text" name="supplier_name"></label>
-                    <label>성명: <input type="text" name="supplier_owner"></label>
+                    <label>대표자: <input type="text" name="supplier_owner"></label>
                 </div>
                 <label>사업장 주소: <input type="text" name="supplier_address"></label>
                 <div class="field-row">
@@ -225,10 +230,10 @@
         <div class="invoice-company-info">
             <div class="invoice-recipient">
                 <h2>공급받는자</h2>
-                <p><strong>등록번호:</strong> <span id="preview-recipient-reg-num"></span></p>
+                <p><strong>사업자등록번호:</strong> <span id="preview-recipient-reg-num"></span></p>
                 <p class="pair-row">
                     <span class="pair-col"><strong>상호:</strong> <span id="preview-recipient-name"></span></span>
-                    <span class="pair-col"><strong>성명:</strong> <span id="preview-recipient-owner"></span></span>
+                    <span class="pair-col"><strong>대표자:</strong> <span id="preview-recipient-owner"></span></span>
                 </p>
                 <p><strong>사업장 주소:</strong> <span id="preview-recipient-address"></span></p>
                 <p class="pair-row">
@@ -240,10 +245,10 @@
             </div>
             <div class="invoice-supplier">
                 <h2>공급자</h2>
-                <p><strong>등록번호:</strong> <span id="preview-supplier-reg-num"></span></p>
+                <p><strong>사업자등록번호:</strong> <span id="preview-supplier-reg-num"></span></p>
                 <p class="pair-row">
                     <span class="pair-col"><strong>상호:</strong> <span id="preview-supplier-name"></span></span>
-                    <span class="pair-col"><strong>성명:</strong> <span id="preview-supplier-owner"></span></span>
+                    <span class="pair-col"><strong>대표자:</strong> <span id="preview-supplier-owner"></span></span>
                 </p>
                 <img id="preview-supplier-stamp" alt="도장 이미지">
                 <p><strong>사업장 주소:</strong> <span id="preview-supplier-address"></span></p>
