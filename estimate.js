@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setLoggedInState(isLoggedIn, email = '') {
-        document.body.classList.toggle('is-logged-out', !isLoggedIn);
         logoutButton.disabled = !isLoggedIn;
         loginButton.disabled = isLoggedIn;
         loginEmail.disabled = isLoggedIn;
         loginPassword.disabled = isLoggedIn;
-        authStatus.textContent = isLoggedIn ? `${email} 로그인됨` : '로그인 필요';
+        authStatus.textContent = isLoggedIn ? `${email} 저장 활성` : '저장 비활성';
+        authStatus.classList.toggle('is-active', isLoggedIn);
     }
 
     function getOrCreateUser(email) {
@@ -114,20 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function ensureLoggedIn() {
-        const email = getCurrentUserEmail();
-        if (!email) {
-            alert('로그인이 필요합니다.');
-            return null;
-        }
-        return email;
-    }
-
     loginButton.addEventListener('click', () => {
         const email = loginEmail.value.trim();
         const password = loginPassword.value.trim();
         if (!email || !password) {
-            alert('이메일과 비밀번호를 입력해주세요.');
+            alert('저장용 이메일과 비밀번호를 입력해주세요.');
             return;
         }
 
@@ -371,13 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const printInvoiceButton = document.getElementById('print-invoice');
     printInvoiceButton.addEventListener('click', () => {
-        if (!ensureLoggedIn()) return;
         window.print();
     });
 
     const downloadPdfButton = document.getElementById('download-pdf');
     downloadPdfButton.addEventListener('click', () => {
-        if (!ensureLoggedIn()) return;
         const { jsPDF } = window.jspdf;
         const invoicePreview = document.querySelector('.invoice-preview');
 
